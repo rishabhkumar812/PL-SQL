@@ -1,0 +1,59 @@
+-- Write a program in PL/SQL to update the salary of a 
+-- specific employee by 10% if the salary exceeds the mid range 
+-- of the salary against this job and update up to mid range if
+-- the salary is less than the mid range of the salary, 
+-- and display a suitable message for users.
+
+DECLARE
+
+  MAX_SAL EMP.SALARY%TYPE;
+
+  MIN_SAL EMP.SALARY%TYPE;
+
+  MID_SAL EMP.SALARY%TYPE;
+
+   
+
+  TMP_SAL EMP.SALARY%TYPE;
+
+  TMP_EID EMP.EID%TYPE:=3;
+
+BEGIN 
+
+
+
+SELECT MAX(SALARY),MIN(SALARY) INTO MAX_SAL,MIN_SAL FROM EMP;
+
+DBMS_OUTPUT.PUT_LINE('MAX SALARY='||MAX_SAL);
+
+DBMS_OUTPUT.PUT_LINE('MIN SALARY='||MIN_SAL);
+
+
+
+MID_SAL:=(MAX_SAL+MIN_SAL)/2;
+
+DBMS_OUTPUT.PUT_LINE('MID SALARY='||MID_SAL);
+
+
+
+SELECT SALARY INTO TMP_SAL FROM EMP WHERE EID=TMP_EID;
+
+DBMS_OUTPUT.PUT_LINE('SALARY='||TMP_SAL);
+
+
+
+IF(TMP_SAL<=MID_SAL) THEN
+
+UPDATE EMP SET SALARY=MID_SAL WHERE EID=TMP_EID;
+
+DBMS_OUTPUT.PUT_LINE('SALARY SET TO MID RANGE');
+
+ELSE 
+
+UPDATE EMP SET SALARY=SALARY*1.1 WHERE EID=TMP_EID;
+
+DBMS_OUTPUT.PUT_LINE('SALARY INCREASED BY 10 PERCENT');
+
+END IF;
+
+END;
